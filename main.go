@@ -1,81 +1,54 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"github.com/gorilla/websocket"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
 )
 
-var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool { return true },
-}
-
-// Player merepresentasikan pemain dalam game
-type Player struct {
-	ID       string
-	Name     string
-	Hero     string
-	Level    int
-	HP       float64
-	MaxHP    float64
-	MP       float64
-	MaxMP    float64
-	Position Position
-	Conn     *websocket.Conn
-}
-
-// Position posisi player di map
-type Position struct {
-	X float64
-	Y float64
-	Z float64
-}
-
-// BattleRoom room pertempuran
-type BattleRoom struct {
-	ID      string
-	Players map[string]*Player
-	MaxPlayers int
-}
-
-var rooms = make(map[string]*BattleRoom)
-
-func handleWebSocket(w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println("Upgrade error:", err)
-		return
-	}
-	defer conn.Close()
-
-	player := &Player{
-		ID:    "player_1",
-		Name:  "Player1",
-		Hero:  "Li Bai",
-		Level: 1,
-		HP:    3000,
-		MaxHP: 3000,
-		MP:    500,
-		MaxMP: 500,
-		Conn:  conn,
-	}
-
-	log.Printf("Player %s connected with hero %s", player.Name, player.Hero)
-
-	// Game loop untuk player ini
-	for {
-		_, message, err := conn.ReadMessage()
-		if err != nil {
-			log.Println("Read error:", err)
-			break
-		}
-		log.Printf("Received from %s: %s", player.Name, string(message))
-	}
-}
-
 func main() {
-	http.HandleFunc("/ws", handleWebSocket)
-	fmt.Println("HOK Game Server running on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// Inisialisasi Aplikasi dan Jendela
+	myApp := app.New()
+	myWindow := myApp.NewWindow("Contoh Aplikasi Chat Sederhana")
+
+	// Area untuk menampilkan riwayat chat
+	chatArea := widget.NewMultiLineEntry()
+	chatArea.Wrapping = fyne.TextWrapWord
+	chatArea.SetText("Sistem: Selamat datang di aplikasi chat contoh.\n")
+	
+	// Membuat area chat tidak bisa diedit oleh user (hanya untuk tampilan)
+	chatArea.Disable() 
+
+	// Kolom input untuk mengetik pesan
+	inputEntry := widget.NewEntry()
+	inputEntry.SetPlaceHolder("Ketik pesan Anda di sini...")
+
+	// Tombol Kirim
+	sendBtn := widget.NewButton("Kirim", func() {
+		pesan := inputEntry.Text
+		if pesan != "" {
+			// Tambahkan pesan ke area chat
+			chatArea.Enable() // Enable sementara untuk mengubah teks
+			chatArea.SetText(chatArea.Text + "Anda: " + pesan + "\n")
+			chatArea.Disable() // Disable kembali
+			
+			// Kosongkan kolom input
+			inputEntry.SetText("")
+		}
+	})
+
+	// Mengatur layout input dan tombol (Tombol di sebelah kanan input)
+	inputBox := container.NewBorder(nil, nil, nil, sendBtn, inputEntry)
+
+	// Menggabungkan area chat dan kotak input secara vertikal
+	content := container.NewVBox(
+		chatArea,
+		inputBox,
+	)
+
+	// Set konten ke jendela dan jalankan
+	myWindow.SetContent(content)
+	myWindow.Resize(fyne.NewSize(400, 500))
+	myWindow.ShowAndRun()
 }
