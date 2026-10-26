@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeffxyCode Official</title>
+
+  <!-- WEBSITE ICON -->
+  <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/raizell526/dat2/main/uploads/d9eac6-1783929334529.jpg">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/raizell526/dat2/main/uploads/d9eac6-1783929334529.jpg">
+
+  <!-- GOOGLE FONTS & FONT AWESOME -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* === RESET & BASE === */
+    :root {
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.5);
+      --secondary: #ec4899;
+      --bg-dark: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* === ANIMATED BACKGROUND === */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15), transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1), transparent 40%);
+      animation: bgMove 20s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes bgMove {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-20px, -20px) rotate(5deg); }
+    }
+
+    /* === LAYOUT === */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    /* === BANNER & TYPING === */
+    .banner {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease;
+    }
+
+    .banner:hover {
+      transform: scale(1.02);
+    }
+
+    .typing-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 16px;
+      min-height: 1.5em;
+      text-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .typing-text::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* === BADGES & TOP === */
+    .top {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .stock {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .stock::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* === TYPOGRAPHY === */
+    .title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .owner-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    /* === SECTIONS === */
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 32px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+    }
+
+    /* === OWNER CARD === */
+    .owner-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .owner-card h3 {
+      font-size: 1rem;
+      margin-bottom: 16px;
+      color: var(--primary);
+    }
+
+    .owner-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .owner-item:last-child {
+      border-bottom: none;
+    }
+
+    .owner-item a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .owner-item a:hover {
+      color: var(--primary);
+    }
+
+    /* === FEATURES PREVIEW === */
+    .preview-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .preview-title {
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .preview-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .preview-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      text-align: center;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .preview-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    /* === PACKAGES === */
+    .package {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .package::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .package:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 30px -10px var(--primary-glow);
+    }
+
+    .package:hover::before {
+      transform: scaleX(1);
+    }
+
+    .package h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .package-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 12px 0;
+    }
+
+    .package p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    /* === PAYMENT === */
+    .payment-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .payment-box img {
+      max-width: 250px;
+      width: 100%;
+      border-radius: 12px;
+      margin: 16px 0;
+      border: 2px solid var(--border);
+      transition: transform 0.3s;
+    }
+
+    .payment-box img:hover {
+      transform: scale(1.05);
+    }
+
+    .payment-box .name {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* === BUTTONS === */
+    .check-btn, .channel-btn, .youtube-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      margin-top: 16px;
+    }
+
+    .check-btn {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+
+    .check-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--primary-glow);
+    }
+
+    .channel-btn {
+      background: #25D366;
+      color: white;
+      margin-top: 24px;
+    }
+
+    .channel-btn:hover {
+      background: #128C7E;
+      transform: translateY(-2px);
+    }
+
+    .youtube-btn {
+      background: #FF0000;
+      color: white;
+      margin-top: 12px;
+    }
+
+    .youtube-btn:hover {
+      background: #CC0000;
+      transform: translateY(-2px);
+    }
+
+    /* === SERVICES & PORTFOLIO === */
+    .service-card, .portfolio {
+      display: grid;
+      gap: 16px;
+    }
+
+    .service, .portfolio .package {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .service:hover, .portfolio .package:hover {
+      border-color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    .service h3, .portfolio .package h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .service p, .portfolio .package p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* === FEATURES TAGS === */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+      justify-content: center;
+    }
+
+    .feature {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    /* === FAQ === */
+    .faq {
+      margin-top: 32px;
+    }
+
+    .faq-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .faq-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 16px;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      transition: background 0.3s;
+    }
+
+    .faq-question:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .faq-question::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      transition: transform 0.3s;
+      color: var(--primary);
+    }
+
+    .faq-item.active .faq-question::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding: 0 16px;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 0 16px 16px;
+    }
+
+    /* === FLOAT BUTTON === */
+    .order-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #0088cc, #005f8f);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(0, 136, 204, 0.4);
+      transition: all 0.3s ease;
+      z-index: 100;
+      animation: bounce 2s infinite;
+    }
+
+    .order-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 25px rgba(0, 136, 204, 0.6);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* === TOAST NOTIFICATION === */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: rgba(16, 185, 129, 0.9);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 480px) {
+      .container { padding: 16px; }
+      .card { padding: 20px; border-radius: 20px; }
+      .title { font-size: 1.5rem; }
+      .preview-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span>Silakan kirim bukti ke Wa Owner!</span>
+  </div>
+
+  <div class="container">
+    <div class="card">
+
+      <img src="https://h.uguu.se/xNjaOBcR.jpg" class="banner" alt="Banner Deffxy MD">
+
+      <div class="content">
+
+        <div class="typing-text" id="typing"></div>
+
+        <div class="top">
+          <div class="badge">PREMIUM SCRIPT</div>
+          <div class="stock">Ready</div>
+        </div>
+
+        <div class="title">DeffXy - MD<br>WhatsApp Bot</div>
+
+        <div class="desc">
+          Script Bot WhatsApp MultiDevice premium dengan fitur lengkap, modern, ringan dan siap digunakan.<br><br>
+          Setiap pembelian mendapatkan free update, support owner dan request fitur.<br><br>
+          Deffxy Bot memiliki fitur seperti AI, Downloader, Game, RPG, Store System dan masih banyak lagi.
+        </div>
+
+        <div class="owner-status">
+          <span class="dot"></span>
+          Owner Online 24/7
+        </div>
+
+        <!-- OWNER PROFILE -->
+        <div class="owner-card reveal">
+          <h3><i class="fas fa-user-circle"></i> Owner Profile</h3>
+          
+          <div class="owner-item">
+            <span>Name :</span>
+            <a href="#" target="_blank">DeffXyCode Official <i class="fas fa-external-link-alt" style="font-size:0.8em"></i></a>
+          </div>
+          
+          <div class="owner-item">
+            <span>Email :</span>
+            <a href="mailto:deffxzy6@gmail.com">deffxzy6@gmail.com <i class="fas fa-envelope" style="font-size:0.8em"></i></a>
+          </div>
+          
+          <div class="owner-item">
+            <span>YouTube :</span>
+            <a href="https://youtube.com/@deffxyCode" target="_blank">@deffxyOfficial<i class="fab fa-youtube" style="font-size:0.8em; color:#FF0000"></i></a>
+          </div>
+          
+          <div class="owner-item">
+            <span>TikTok :</span>
+            <a href="https://tiktok.com/@deffxyofficial" target="_blank">@deffxyofficial <i class="fab fa-tiktok" style="font-size:0.8em"></i></a>
+          </div>
+        </div>
+
+        <!-- FEATURE -->
+        <div class="preview-box reveal">
+          <div class="preview-title"><i class="fas fa-star"></i> Preview Features</div>
+          <div class="preview-list">
+            <div class="preview-item">🤖 AI Features</div>
+            <div class="preview-item">📥 Downloader</div>
+            <div class="preview-item">🛒 Store System</div>
+            <div class="preview-item">⚔️ RPG Game</div>
+            <div class="preview-item">⚡ Fast Response</div>
+            <div class="preview-item">🔒 No ENC</div>
+          </div>
+        </div>
+
+        <!-- PACKAGE -->
+        <div class="section-title reveal">🔥 Best Seller Package</div>
+
+        <div class="package reveal">
+          <h3>🤖 Buy Script Premium</h3>
+          <div class="package-price">Rp25.000</div>
+          <p>
+            ✓ Full Feature<br>
+            ✓ Free Update<br>
+            ✓ Support Owner<br>
+            ✓ No ENC
+          </p>
+        </div>
+
+        <div class="package reveal">
+          <h3>♻️ Reseller Script</h3>
+          <p>
+            Harga khusus reseller<br><br>
+            ✓ Bisa jual kembali<br>
+            ✓ Support<br>
+            ✓ Update
+          </p>
+        </div>
+
+        <div class="package reveal">
+          <h3>👑 Partner Lifetime</h3>
+          <div class="package-price">Rp50.000</div>
+          <p>
+            ✓ Status Partner<br>
+            ✓ Bisa Open Reseller<br>
+            ✓ Keuntungan tambahan banyak sekali
+          </p>
+        </div>
+
+        <div class="package reveal">
+          <h3>🤖 Jasa Buat Web</h3>
+          <div class="package-price">Rp20.000</div>
+          <p>
+            ✓ Anti DevTol<br>
+            ✓ Free Update<br>
+            ✓ Support Owner<br>
+            ✓ website store<br>
+            tergantung web kalo mau lebih bisa mahal
+          </p>
+        </div>
+
+        <!-- PAYMENT QRIS -->
+        <div class="section-title reveal">💳 Payment</div>
+
+        <div class="payment-box reveal">
+          <h3>QRIS PAYMENT</h3>
+          <img src="https://files.catbox.moe/4rt11l.jpg" alt="QRIS Payment">
+          <div class="name">Scan QRIS Untuk Melakukan Pembayaran</div>
+        </div>
+
+        <button class="check-btn reveal" onclick="checkPayment()">
+          <i class="fas fa-paper-plane"></i> KIRIM BUKTI PEMBAYARAN
+        </button>
+
+        <!-- SERVICES -->
+        <div class="section-title reveal">🛠️ Our Services</div>
+
+        <div class="service-card reveal">
+          <div class="service">
+            <h3>🔧 Fix Script</h3>
+            <p>Perbaikan error bot WhatsApp, update library, fix plugin dan optimasi script.</p>
+          </div>
+          <div class="service">
+            <h3>🌐 Website Simple</h3>
+            <p>Pembuatan landing page, website store, portfolio dan website sederhana.</p>
+          </div>
+          <div class="service">
+            <h3>📱 Order Nokos</h3>
+            <p>Penyediaan nomor virtual untuk kebutuhan verifikasi.</p>
+          </div>
+        </div>
+
+        <!-- PORTFOLIO -->
+        <div class="section-title reveal">🚀 Portfolio</div>
+
+        <div class="portfolio reveal">
+          <div class="package">
+            <h3>DeffXy Bot</h3>
+            <p>WhatsApp MultiDevice Bot AI, Downloader, Game, RPG</p>
+          </div>
+          <div class="package">
+            <h3>DeffXyCode Website</h3>
+            <p>Modern landing page dan website digital store.</p>
+          </div>
+          <div class="package">
+            <h3>API Project</h3>
+            <p>Development API dan integrasi sistem.</p>
+          </div>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="features reveal">
+          <div class="feature">⚡ Fast Response</div>
+          <div class="feature">📦 Ringan Dipakai</div>
+          <div class="feature">🛠 Support</div>
+        </div>
+
+        <!-- BUTTON -->
+        <a href="https://whatsapp.com/channel/0029Vb8PhH1CXC3G051eYf1Z" target="_blank" class="channel-btn reveal">
+          <i class="fab fa-whatsapp"></i> JOIN CHANNEL
+        </a>
+
+        <a href="https://youtube.com/@deffxyofficial" target="_blank" class="youtube-btn reveal">
+          <i class="fab fa-youtube"></i> SUBSCRIBE YOUTUBE
+        </a>
+
+        <!-- FAQ -->
+        <div class="faq reveal">
+          <div class="faq-title">Frequently Asked Questions</div>
+          
+          <div class="faq-item">
+            <button class="faq-question">Free Update?</button>
+            <div class="faq-answer">Ya, setiap pembelian mendapatkan free update.</div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">Bisa Rename?</button>
+            <div class="faq-answer">Bisa rename nama bot sesuai kebutuhan.</div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">Apakah Script No ENC?</button>
+            <div class="faq-answer">Ya, script diberikan tanpa ENC.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOAT ORDER -->
+  <a href="https://wa.me//62895335064844" target="_blank" class="order-float" title="Order via wa">
+    <i class="fab fa-telegram-plane"></i>
+  </a>
+
+  <script>
+    // === TYPING ANIMATION ===
+    const textToType = "Welcome to DeffXyCode Official Store!";
+    const typingElement = document.getElementById('typing');
+    let charIndex = 0;
+
+    function typeText() {
+      if (charIndex < textToType.length) {
+        typingElement.textContent += textToType.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeText, 100);
+      }
+    }
+    
+    // Start typing after a short delay
+    setTimeout(typeText, 500);
+
+    // === FAQ ACCORDION ===
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
+        // Close other items
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.classList.remove('active');
+          }
+        });
+        // Toggle current item
+        item.classList.toggle('active');
+      });
+    });
+
+    // === TOAST NOTIFICATION ===
+    function checkPayment() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      
+      // Optional: Open Telegram after a short delay
+      setTimeout(() => {
+        window.open('https://wa.me//62895335064844', '_blank');
+      }, 1500);
+
+      // Hide toast after 4 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    // === SCROLL REVEAL ANIMATION ===
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+      const elementVisible = 100;
+
+      revealElements.forEach((reveal) => {
+        const elementTop = reveal.getBoundingClientRect().top;
+        if (elementTop < windowHeight - elementVisible) {
+          reveal.classList.add('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    // Trigger once on load
+    revealOnScroll();
+  </script>
+
+</body>
+  </html>
